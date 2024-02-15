@@ -1,5 +1,6 @@
 import Conversation from '../models/conversation.model.js';
 import Message from '../models/message.model.js';
+import { getReceiverSocketId, io } from '../socket/socket.js';
 
 export const sendMessage = async (req, res) => {
     try {
@@ -27,12 +28,17 @@ export const sendMessage = async (req, res) => {
         if(newMessage) {
             conversation.messages.push(newMessage._id);
         }
-
-        // SOCKET IO FUNCTIONALITY WILL GO HERE
-
+        
         //await conversation.save();
         //await newMessage.save();
         await Promise.all([conversation.save(), newMessage.save()]); //See notes below
+
+        // SOCKET IO FUNCTIONALITY WILL GO HERE
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if(receiverSocketId) {
+            // io.to(<socket_id>).emit() is used to send events to specific client (see below notes for more details)
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
         res.status(201).json(newMessage);
 
     } catch (error) {
@@ -78,4 +84,73 @@ export const getMessages = async (req, res) => {
     Mongoose automatically matches the ObjectIds stored in the messages array with the _id of documents in the Message collection, populates the messages field in the conversation document with those documents, and returns the result.
     
     automatic population of fields in Mongoose relies on the fact that the referenced fields are of type Schema.Types.ObjectId. If the objects in the messages array were not of this type, Mongoose would not recognize them as references to documents in another collection, and the automatic population mechanism would not work.
+    
+    ========================================================================================
+
+    Note: io.to()
+
+    io.to() is a method in Socket.IO that allows you to send a message to a specific room or namespace. Rooms are a way to group sockets together so that you can broadcast messages to specific subsets of clients.
+
+    Here's how you would typically use io.to():
+
+    javascript
+    Copy code
+    // Server-side code
+    io.to(roomName).emit(eventName, data);
+    This code sends the specified eventName along with optional data to all sockets that have joined the room identified by roomName. It allows you to target a specific group of clients for broadcasting messages.
+
+    For example:
+
+    javascript
+    Copy code
+    // Server-side code
+    io.to('room1').emit('chatMessage', 'Hello, room1!');
+    In this example, the message 'Hello, room1!' will be sent to all clients that have joined the room named 'room1'.
+
+
+    User
+    how do you define a room
+    ChatGPT
+    In Socket.IO, rooms are created implicitly. When a socket joins a room using the join() method, Socket.IO creates the room if it doesn't already exist. You can join a room on the server side using the socket.join(roomName) method, and on the client side using the socket.join(roomName) method.
+
+    Here's how you can define a room and have sockets join it:
+
+    On the server:
+
+    javascript
+    Copy code
+    io.on('connection', (socket) => {
+        socket.join('room1');
+    });
+    On the client:
+
+    javascript
+    Copy code
+    const socket = io();
+    socket.emit('joinRoom', 'room1');
+    In this example, when a socket connects to the server, it automatically joins the room named 'room1'. On the client side, you can emit a custom event (in this case, joinRoom) to tell the server which room to join.
+
+    User
+    do you have to pass a room to to() or can you pass a socket id?
+    ChatGPT
+    In Socket.IO, the to() method can accept either a room name or a socket ID.
+
+    If you pass a room name, the event will be emitted to all sockets that are currently in that room.
+    If you pass a socket ID, the event will be emitted only to the socket with that specific ID.
+    Here's how you can use to() with a room name:
+
+    javascript
+    Copy code
+    io.to('room1').emit('event', data);
+    And here's how you can use it with a socket ID:
+
+    javascript
+    Copy code
+    io.to(socketId).emit('event', data);
+    Both of these examples will emit the event to the specified target(s).
+
+
+
+
+
     */

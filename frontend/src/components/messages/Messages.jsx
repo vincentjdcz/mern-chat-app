@@ -2,8 +2,10 @@ import Message from "./Message"
 import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
 import { useEffect, useRef } from "react";
+import useListenMessages from "../../hooks/useListenMessages";
 const Messages = () => {
   const {messages, loading} = useGetMessages();
+  useListenMessages(); //listen for incoming messages
   const lastMessageRef = useRef(); //In React, when you set the ref of multiple elements to the same lastMessageRef, the lastMessageRef.current property will always point to the last element whose ref was set to lastMessageRef.
   useEffect(() => {
     setTimeout(() => {
