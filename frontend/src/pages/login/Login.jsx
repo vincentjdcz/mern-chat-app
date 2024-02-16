@@ -89,7 +89,7 @@ const Login = () => {
                 <br />
                 <p className="py-4">After signing in you will see everyone else who has an account on the site, and you can start a conversation with anyone!</p>
                 <p className="py-4">You can also use the search functionality to search for a particular username and make that conversation that active chat.</p>
-                <p className="py-4">You can open up an incognito tab (in Chrome for example) so that you can have a fresh tab with no cookies or data stored locally, then log in with a second account to test the live chatting functionality!</p>
+                <p className="py-4">You can open up a regular tab and an incognito tab (in Chrome for example - one has to be a regular tab and one incognito because all regular tabs and all incognito tabs seem to share the same local storage) so that you can have a fresh tab with no cookies or data stored locally, then log in with a second account to test the live chatting functionality!</p>
                 <br />
                 <hr />
                 <br/>
