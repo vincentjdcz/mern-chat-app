@@ -75,17 +75,21 @@ const Login = () => {
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
                 <h3 className="font-bold text-lg" id="welcome">Welcome!</h3>
-                <p className="py-4">Welcome to this MERN Stack chat application!</p>
-                <p className="py-4">It is currently supported on desktop browsers, with mobile responsiveness being on the product roadmap.</p>
+                <p className="py-4">Welcome to this MERN Stack Real-Time Chat Application!</p>
+                <p className="py-4">It is currently supported on desktop and laptop browsers, with mobile responsiveness being on the product roadmap.</p>
                 <br />
                 <hr />
-                <p className="py-4">Feel free to create your own account and log in, or use the demo account below: </p>
+                <p className="py-4">Feel free to create your own account and log in, or use the demo accounts below: </p>
                 <p className="py-4">username: johndoe</p>
                 <p className="py-4">password: johndoe12345</p>
+                <br />
+                <p className="py-4">username: janedoe</p>
+                <p className="py-4">password: janedoe12345</p>
                 <hr />
                 <br />
                 <p className="py-4">After signing in you will see everyone else who has an account on the site, and you can start a conversation with anyone!</p>
                 <p className="py-4">You can also use the search functionality to search for a particular username and make that conversation that active chat.</p>
+                <p className="py-4">You can open up an incognito tab (in Chrome for example) so that you can have a fresh tab with no cookies or data stored locally, then log in with a second account to test the live chatting functionality!</p>
                 <br />
                 <hr />
                 <br/>
