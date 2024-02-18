@@ -28,6 +28,7 @@ const useSignup = () => {
         console.log(data);
     } catch (error){
         toast.error(error.message);
+        setLoading(false);
     } finally {
         setLoading(false);
     }
