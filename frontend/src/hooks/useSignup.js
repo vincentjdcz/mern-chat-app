@@ -41,16 +41,19 @@ export default useSignup
 function handleInputErrors({fullName, username, password, confirmPassword, gender}) {
     if(!fullName || !username || !password || !confirmPassword || !gender) {
         toast.error("Please fill in all fields");
+        setLoading(false);
         return false;
     }
 
     if(password !== confirmPassword) {
         toast.error("Passwords do not match");
+        setLoading(false);
         return false;
     }
 
     if(password.length < 6) {
         toast.error("Password must be at least 6 characters");
+        setLoading(false);
         return false;
     }
 
