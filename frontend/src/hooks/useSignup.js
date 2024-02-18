@@ -9,7 +9,11 @@ const useSignup = () => {
   const signup = async({fullName, username, password, confirmPassword, gender}) => {
     setLoading(true);
     const success = handleInputErrors({fullName, username, password, confirmPassword, gender});
-    if(!success) return;
+    if(!success) {
+        console.log("setting loading to false1");
+        setLoading(false);
+        return;
+    } 
     try{
         const res = await fetch("/api/auth/signup", { //NOTE: in dev since we use proxy in vite.config.js we are removing the base of the URL full url would be something like http://localhost:5000/api/auth/signup
             method: "POST",
@@ -41,7 +45,9 @@ export default useSignup
 function handleInputErrors({fullName, username, password, confirmPassword, gender}) {
     if(!fullName || !username || !password || !confirmPassword || !gender) {
         toast.error("Please fill in all fields");
+        console.log("settingLoading to false: ");
         setLoading(false);
+        console.log("Loading value: ", loading);
         return false;
     }
 
