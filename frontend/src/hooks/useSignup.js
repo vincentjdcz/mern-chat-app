@@ -10,7 +10,6 @@ const useSignup = () => {
     setLoading(true);
     const success = handleInputErrors({fullName, username, password, confirmPassword, gender});
     if(!success) {
-        console.log("setting loading to false1");
         setLoading(false);
         return;
     } 
@@ -45,21 +44,16 @@ export default useSignup
 function handleInputErrors({fullName, username, password, confirmPassword, gender}) {
     if(!fullName || !username || !password || !confirmPassword || !gender) {
         toast.error("Please fill in all fields");
-        console.log("settingLoading to false: ");
-        setLoading(false);
-        console.log("Loading value: ", loading);
         return false;
     }
 
     if(password !== confirmPassword) {
         toast.error("Passwords do not match");
-        setLoading(false);
         return false;
     }
 
     if(password.length < 6) {
         toast.error("Password must be at least 6 characters");
-        setLoading(false);
         return false;
     }
 
